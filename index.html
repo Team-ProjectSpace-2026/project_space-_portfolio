@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -147,9 +147,54 @@
   .about-grid p{color:var(--steel);font-size:15px;max-width:440px;}
   .about-grid p + p{margin-top:14px;}
 
-  .contact-box{padding:44px;border:1px solid var(--night-line);text-align:left;background:rgba(255,255,255,0.03);}
+  .contact-box{padding:44px;border:1px solid var(--night-line);text-align:left;background:rgba(255,255,255,0.03);position:relative;overflow:hidden;}
+  .contact-box::before{content:"";position:absolute;top:0;left:0;width:3px;height:100%;background:var(--signal);}
   .contact-box h2{margin-bottom:10px;}
-  .contact-box p{color:var(--steel);max-width:420px;margin-bottom:26px;}
+  .contact-box p{color:var(--steel);max-width:480px;margin-bottom:26px;}
+
+  /* Comms channels */
+  .comms-status{display:inline-flex;align-items:center;gap:8px;font-size:11px;letter-spacing:1px;color:#4ade80;margin-bottom:20px;padding:5px 12px;background:rgba(74,222,128,0.08);border:1px solid rgba(74,222,128,0.25);border-radius:20px;}
+  .beacon-dot{width:6px;height:6px;background:#4ade80;border-radius:50%;box-shadow:0 0 8px #4ade80;animation:pulse-dot 2s infinite;}
+  @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1);}50%{opacity:0.4;transform:scale(0.8);}}
+
+  .comms-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px;}
+  .comm-card{
+    display:flex;flex-direction:column;justify-content:space-between;
+    padding:20px 18px;border:1px solid rgba(255,255,255,0.08);
+    background:linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+    backdrop-filter:blur(8px);border-radius:10px;text-decoration:none;
+    transition:all .22s cubic-bezier(0.16, 1, 0.3, 1);
+    position:relative;overflow:hidden;min-width:0;
+  }
+  .comm-card.whatsapp:hover{border-color:rgba(37,211,102,0.6);box-shadow:0 8px 24px rgba(37,211,102,0.12);transform:translateY(-3px);}
+  .comm-card.email:hover{border-color:rgba(232,130,60,0.7);box-shadow:0 8px 24px rgba(232,130,60,0.12);transform:translateY(-3px);}
+  .comm-card.instagram:hover{border-color:rgba(225,48,108,0.6);box-shadow:0 8px 24px rgba(225,48,108,0.12);transform:translateY(-3px);}
+
+  .comm-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;}
+  .comm-badge{display:flex;align-items:center;gap:10px;}
+  .comm-icon-wrap{
+    width:32px;height:32px;border-radius:8px;
+    display:flex;align-items:center;justify-content:center;
+    transition:all .2s ease;flex-shrink:0;
+  }
+  .comm-card.whatsapp .comm-icon-wrap{color:#25D366;background:rgba(37,211,102,0.12);border:1px solid rgba(37,211,102,0.3);}
+  .comm-card.email .comm-icon-wrap{color:var(--signal);background:rgba(232,130,60,0.12);border:1px solid rgba(232,130,60,0.3);}
+  .comm-card.instagram .comm-icon-wrap{color:#E1306C;background:rgba(225,48,108,0.12);border:1px solid rgba(225,48,108,0.3);}
+  
+  .comm-label{font-size:11px;letter-spacing:1px;color:var(--steel);text-transform:uppercase;font-weight:500;}
+  .comm-arrow{color:var(--steel);font-size:14px;transition:transform .2s ease, color .2s ease;}
+  .comm-card:hover .comm-arrow{color:#F1EDE2;transform:translate(2px, -2px);}
+  
+  .comm-val{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:13.5px;font-weight:600;color:#F1EDE2;
+    margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+    letter-spacing:-0.2px;
+  }
+  .comm-sub{font-size:11px;color:var(--steel);letter-spacing:0.3px;}
+  .footer-links{display:flex;gap:18px;align-items:center;}
+  .footer-links a{color:var(--steel);text-decoration:none;transition:color .12s;}
+  .footer-links a:hover{color:#F1EDE2;}
 
   footer{padding:30px 0 46px;border-top:1px solid var(--night-line);color:var(--steel);}
   footer .wrap{display:flex;justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:10px;}
@@ -157,8 +202,8 @@
   /* crew grid */
   .crew-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 32px;margin-top:44px;}
   .crew-card{display:flex;flex-direction:column;align-items:center;text-align:center;}
-  .astronaut{width:180px;height:220px;margin-bottom:16px;overflow:hidden;border-radius:16px;background:#D8C4EB;}
-  .astronaut img{width:100%;height:100%;object-fit:contain;}
+  .astronaut{width:180px;height:220px;margin-bottom:16px;display:flex;align-items:center;justify-content:center;}
+  .astronaut img{width:100%;height:100%;object-fit:contain;filter:drop-shadow(0 8px 20px rgba(0,0,0,0.35));}
   .crew-card:nth-child(1) .astronaut{animation:float 3.2s ease-in-out infinite;}
   .crew-card:nth-child(2) .astronaut{animation:float 3.6s ease-in-out 0.4s infinite;}
   .crew-card:nth-child(3) .astronaut{animation:float 3.0s ease-in-out 0.8s infinite;}
@@ -175,6 +220,7 @@
     .about-grid{grid-template-columns:1fr;}
     nav a{margin-left:14px;font-size:11px;}
     .contact-box{padding:28px;}
+    .comms-grid{grid-template-columns:1fr;}
     .service-detail{padding-left:0;}
     .crew-grid{grid-template-columns:repeat(2,1fr);gap:28px 20px;}
   }
@@ -182,25 +228,6 @@
     .crew-grid{grid-template-columns:1fr;gap:24px;}
   }
 </style>
-
-<svg style="position:absolute;width:0;height:0" aria-hidden="true">
-  <defs>
-    <filter id="remove-bg" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
-      <feFlood flood-color="#D8C4EB" result="flood"/>
-      <feComposite in="SourceGraphic" in2="flood" operator="arithmetic"
-        k1="0" k2="1" k3="-1" k4="0" result="above"/>
-      <feComposite in="flood" in2="SourceGraphic" operator="arithmetic"
-        k1="0" k2="1" k3="-1" k4="0" result="below"/>
-      <feBlend in="above" in2="below" mode="lighten" result="absdiff"/>
-      <feColorMatrix in="absdiff" type="luminanceToAlpha" result="alphaMatte"/>
-      <feComponentTransfer in="alphaMatte" result="boosted">
-        <feFuncA type="linear" slope="3" intercept="-0.4"/>
-      </feComponentTransfer>
-      <feComposite in="SourceGraphic" in2="boosted" operator="in"/>
-    </filter>
-  </defs>
-</svg>
-
 </head>
 <body>
 
@@ -320,33 +347,33 @@
 
     <div class="crew-grid">
       <div class="crew-card">
-        <div class="astronaut"><img src="images/arjun.png" alt="Arjun"/></div>
-        <div class="crew-name">Arjun</div>
+        <div class="astronaut"><img src="images/arjun.png" alt="Karthik"/></div>
+        <div class="crew-name">Karthik</div>
         <div class="crew-role">Mission Lead</div>
       </div>
       <div class="crew-card">
-        <div class="astronaut"><img src="images/priya.png" alt="Priya"/></div>
-        <div class="crew-name">Priya</div>
+        <div class="astronaut"><img src="images/rohan.png" alt="Pratham"/></div>
+        <div class="crew-name">Pratham</div>
         <div class="crew-role">Code Pilot</div>
+      </div>
+      <div class="crew-card">
+        <div class="astronaut"><img src="images/priya.png" alt="Pallavi"/></div>
+        <div class="crew-name">Pallavi</div>
+        <div class="crew-role">Systems Engineer</div>
+      </div>
+      <div class="crew-card">
+        <div class="astronaut"><img src="images/dev.png" alt="Ashith"/></div>
+        <div class="crew-name">Ashith</div>
+        <div class="crew-role">Payload Specialist</div>
       </div>
       <div class="crew-card">
         <div class="astronaut"><img src="images/rahul.png" alt="Rahul"/></div>
         <div class="crew-name">Rahul</div>
-        <div class="crew-role">Systems Engineer</div>
-      </div>
-      <div class="crew-card">
-        <div class="astronaut"><img src="images/ananya.png" alt="Ananya"/></div>
-        <div class="crew-name">Ananya</div>
-        <div class="crew-role">Payload Specialist</div>
-      </div>
-      <div class="crew-card">
-        <div class="astronaut"><img src="images/rohan.png" alt="Rohan"/></div>
-        <div class="crew-name">Rohan</div>
         <div class="crew-role">Orbit Designer</div>
       </div>
       <div class="crew-card">
-        <div class="astronaut"><img src="images/dev.png" alt="Dev"/></div>
-        <div class="crew-name">Dev</div>
+        <div class="astronaut"><img src="images/ananya.png" alt="Manasa"/></div>
+        <div class="crew-name">Manasa</div>
         <div class="crew-role">Launch Coordinator</div>
       </div>
     </div>
@@ -357,10 +384,61 @@
 <section id="contact" class="paper">
   <div class="wrap">
     <div class="contact-box">
-      <span class="eyebrow-dark mono">Launch</span>
+      <div class="comms-status mono">
+        <span class="beacon-dot"></span>
+        <span>COMMS CHANNELS ONLINE · READY FOR DISPATCH</span>
+      </div>
+      <span class="eyebrow-dark mono">Direct Uplink</span>
       <h2 class="display">Tell us what you're building.</h2>
-      <p>Send a line about the project and we'll get back within a day or two.</p>
-      <a href="mailto:hello@projectspace.studio" class="btn btn-primary">[ Initiate launch ]</a>
+      <p>Need a fast landing page, business site, or full-stack SaaS product? Transmit a line directly on WhatsApp or drop us a transmission — we reply within hours.</p>
+      
+      <div>
+        <a href="https://wa.me/918722442422?text=Hi%20Project%20Space!%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" class="btn btn-primary">[ Transmit on WhatsApp ↗ ]</a>
+      </div>
+
+      <div class="comms-grid mono">
+        <a href="https://wa.me/918722442422?text=Hi%20Project%20Space!%20I'd%20like%20to%20discuss%20a%20project." target="_blank" rel="noopener noreferrer" class="comm-card whatsapp">
+          <div class="comm-card-head">
+            <div class="comm-badge">
+              <div class="comm-icon-wrap">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-5.705 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+              </div>
+              <span class="comm-label">WhatsApp</span>
+            </div>
+            <span class="comm-arrow">↗</span>
+          </div>
+          <div class="comm-val">+91 87224 42422</div>
+          <div class="comm-sub">Instant chat &amp; quick briefing</div>
+        </a>
+
+        <a href="mailto:heyprojectspace@gmail.com?subject=Project%20Inquiry%20—%20Project%20Space" class="comm-card email">
+          <div class="comm-card-head">
+            <div class="comm-badge">
+              <div class="comm-icon-wrap">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+              </div>
+              <span class="comm-label">Email Log</span>
+            </div>
+            <span class="comm-arrow">↗</span>
+          </div>
+          <div class="comm-val" title="heyprojectspace@gmail.com">heyprojectspace@gmail.com</div>
+          <div class="comm-sub">Project scopes &amp; inquiries</div>
+        </a>
+
+        <a href="https://www.instagram.com/project_space__?igsh=NGI1aDhuaDVnMHNo" target="_blank" rel="noopener noreferrer" class="comm-card instagram">
+          <div class="comm-card-head">
+            <div class="comm-badge">
+              <div class="comm-icon-wrap">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              </div>
+              <span class="comm-label">Instagram</span>
+            </div>
+            <span class="comm-arrow">↗</span>
+          </div>
+          <div class="comm-val">@project_space__</div>
+          <div class="comm-sub">Follow updates &amp; DM us</div>
+        </a>
+      </div>
     </div>
   </div>
 </section>
@@ -368,6 +446,11 @@
 <footer>
   <div class="wrap mono">
     <span>© 2026 PROJECT SPACE</span>
+    <div class="footer-links">
+      <a href="https://wa.me/918722442422" target="_blank" rel="noopener noreferrer">WHATSAPP</a>
+      <a href="mailto:heyprojectspace@gmail.com">EMAIL</a>
+      <a href="https://www.instagram.com/project_space__?igsh=NGI1aDhuaDVnMHNo" target="_blank" rel="noopener noreferrer">INSTAGRAM</a>
+    </div>
     <span>WEB DEVELOPMENT &amp; SAAS BUILDS — MANGALURU</span>
   </div>
 </footer>
