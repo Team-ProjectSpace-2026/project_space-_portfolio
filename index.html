@@ -214,6 +214,72 @@
   .crew-name{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;color:#F1EDE2;margin-bottom:4px;}
   .crew-role{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--signal);text-transform:uppercase;}
 
+  /* missions section */
+  .mission-card{
+    border:1px solid var(--night-line);background:rgba(255,255,255,0.025);
+    padding:36px;border-radius:8px;position:relative;overflow:hidden;margin-top:36px;
+    border-left:3px solid var(--signal);
+    transition:border-color .2s, transform .2s, box-shadow .2s;
+  }
+  .mission-card:hover{
+    border-color:var(--signal);box-shadow:0 12px 36px rgba(0,0,0,0.35);
+    transform:translateY(-2px);
+  }
+  .mission-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:16px;}
+  .mission-title{font-size:26px;font-weight:700;color:#F1EDE2;margin-bottom:10px;letter-spacing:-0.3px;}
+  .mission-desc{color:var(--steel);font-size:15px;max-width:580px;line-height:1.65;margin-bottom:24px;}
+  .mission-specs-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:16px;
+    padding:18px 20px;background:rgba(19,26,43,0.7);border:1px solid var(--night-line);
+    border-radius:6px;margin-bottom:26px;
+  }
+  .mission-spec-item{display:flex;flex-direction:column;gap:4px;}
+  .mission-spec-k{font-size:10px;letter-spacing:1.5px;color:var(--steel);text-transform:uppercase;}
+  .mission-spec-v{font-size:13px;font-weight:500;color:#F1EDE2;}
+  .mission-actions{display:flex;gap:16px;align-items:center;flex-wrap:wrap;}
+
+  /* tech stack matrix */
+  .stack-terminal{
+    border:1px solid var(--night-line);background:rgba(255,255,255,0.02);
+    border-radius:10px;overflow:hidden;margin-top:36px;
+  }
+  .stack-tabs-bar{
+    display:flex;gap:6px;padding:12px 16px;background:rgba(19,26,43,0.85);
+    border-bottom:1px solid var(--night-line);overflow-x:auto;scrollbar-width:none;
+  }
+  .stack-tabs-bar::-webkit-scrollbar{display:none;}
+  .stack-tab-btn{
+    background:none;border:1px solid transparent;color:var(--steel);
+    padding:8px 14px;font-size:11.5px;letter-spacing:0.8px;cursor:pointer;
+    border-radius:6px;transition:all .15s ease;white-space:nowrap;
+    font-family:'JetBrains Mono',monospace;
+  }
+  .stack-tab-btn:hover{color:#F1EDE2;background:rgba(255,255,255,0.04);}
+  .stack-tab-btn.active{
+    color:var(--signal);background:rgba(232,130,60,0.1);
+    border-color:rgba(232,130,60,0.3);font-weight:500;
+  }
+  .stack-pane{
+    display:none;padding:26px;
+    animation:fadeInPane .22s ease forwards;
+  }
+  .stack-pane.active{display:block;}
+  @keyframes fadeInPane{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
+  
+  .stack-grid{
+    display:grid;grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));
+    gap:14px;
+  }
+  .stack-item{
+    padding:16px;background:rgba(19,26,43,0.6);border:1px solid var(--night-line);
+    border-radius:8px;transition:border-color .15s, transform .15s;
+  }
+  .stack-item:hover{border-color:var(--signal);transform:translateY(-2px);}
+  .stack-item-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;gap:8px;}
+  .stack-item-name{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;color:#F1EDE2;}
+  .stack-item-tag{font-size:10px;letter-spacing:0.8px;color:var(--signal);background:rgba(232,130,60,0.1);padding:2px 6px;border-radius:4px;white-space:nowrap;}
+  .stack-item-desc{font-size:12px;color:var(--steel);line-height:1.5;}
+
   @media (max-width:720px){
     h1{font-size:30px;}
     .hero-grid{grid-template-columns:1fr;}
@@ -221,6 +287,10 @@
     nav a{margin-left:14px;font-size:11px;}
     .contact-box{padding:28px;}
     .comms-grid{grid-template-columns:1fr;}
+    .mission-specs-grid{grid-template-columns:1fr;gap:12px;}
+    .mission-card{padding:24px;}
+    .stack-pane{padding:18px;}
+    .stack-grid{grid-template-columns:1fr;}
     .service-detail{padding-left:0;}
     .crew-grid{grid-template-columns:repeat(2,1fr);gap:28px 20px;}
   }
@@ -244,6 +314,8 @@
     <div class="wordmark display"><span>PROJECT</span> SPACE</div>
     <nav class="mono">
       <a href="#services">Payload</a>
+      <a href="#missions">Missions</a>
+      <a href="#stack">Stack</a>
       <a href="#about">Crew</a>
       <a href="#contact">Launch</a>
     </nav>
@@ -324,6 +396,274 @@
         <p>Requirements, architecture, build in phases, handoff with docs. Timeline scales with features — an MVP usually ships in 3–6 weeks.</p>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="missions" class="paper reveal-draw">
+  <div class="wrap">
+    <span class="eyebrow-dark mono">Flight log</span>
+    <h2 class="display">Deployed missions.</h2>
+    <p class="section-sub">Production-grade web apps and SaaS platforms built, tested, and shipped into orbit.</p>
+    <svg class="trace" viewBox="0 0 900 20" preserveAspectRatio="none"><path d="M0,10 L200,10 L230,2 L260,18 L290,10 L900,10"/></svg>
+
+    <div class="mission-card">
+      <div class="mission-header">
+        <div class="comms-status mono" style="margin-bottom:0;color:var(--signal);background:rgba(232,130,60,0.1);border-color:rgba(232,130,60,0.3);">
+          <span class="beacon-dot" style="background:var(--signal);box-shadow:0 0 8px var(--signal);"></span>
+          <span>MISSION 01 // LIVE IN PRODUCTION</span>
+        </div>
+        <span class="mono" style="font-size:11px;color:var(--steel);letter-spacing:1px;">ORBIT DEPLOYMENT</span>
+      </div>
+
+      <h3 class="mission-title display">Cric Auction Hub</h3>
+      <p class="mission-desc">A real-time cricket player bidding and auction management platform. Features live budget calculations, real-time squad sync, and seamless auctioneer control room operations.</p>
+
+      <div class="mission-specs-grid mono">
+        <div class="mission-spec-item">
+          <span class="mission-spec-k">Engine</span>
+          <span class="mission-spec-v">Real-Time Bidding &amp; Sync</span>
+        </div>
+        <div class="mission-spec-item">
+          <span class="mission-spec-k">Key Feature</span>
+          <span class="mission-spec-v">Squad Builder &amp; Purse Tracker</span>
+        </div>
+        <div class="mission-spec-item">
+          <span class="mission-spec-k">Platform</span>
+          <span class="mission-spec-v">Vercel Cloud Production</span>
+        </div>
+      </div>
+
+      <div class="mission-actions">
+        <a href="https://cricauctionhub.vercel.app/" target="_blank" rel="noopener noreferrer" class="btn btn-primary">[ Launch live mission ↗ ]</a>
+        <span class="mono" style="font-size:12px;color:var(--steel);">cricauctionhub.vercel.app</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="stack" class="paper reveal-draw">
+  <div class="wrap">
+    <span class="eyebrow-dark mono">Systems &amp; Architecture</span>
+    <h2 class="display">Core technology matrix.</h2>
+    <p class="section-sub">Production-tested tools and engines we use to construct fast, reliable, and real-time software.</p>
+    <svg class="trace" viewBox="0 0 900 20" preserveAspectRatio="none"><path d="M0,10 L200,10 L230,2 L260,18 L290,10 L900,10"/></svg>
+
+    <div class="stack-terminal">
+      <div class="stack-tabs-bar">
+        <button class="stack-tab-btn active" data-tab="tab-frontend">01 // Frontend &amp; UI</button>
+        <button class="stack-tab-btn" data-tab="tab-backend">02 // Backend &amp; Real-Time</button>
+        <button class="stack-tab-btn" data-tab="tab-database">03 // Database &amp; Cloud</button>
+        <button class="stack-tab-btn" data-tab="tab-security">04 // Security &amp; Payments</button>
+        <button class="stack-tab-btn" data-tab="tab-tooling">05 // Tooling &amp; QA</button>
+      </div>
+
+      <!-- Tab 1: Frontend -->
+      <div class="stack-pane active" id="tab-frontend">
+        <div class="stack-grid">
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">React 19</span>
+              <span class="stack-item-tag mono">CORE UI</span>
+            </div>
+            <p class="stack-item-desc">Next-generation component architecture, hooks &amp; concurrent rendering.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Vite 8</span>
+              <span class="stack-item-tag mono">BUNDLER &amp; HMR</span>
+            </div>
+            <p class="stack-item-desc">Sub-millisecond hot module reloading and optimized production output.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">React Router v7</span>
+              <span class="stack-item-tag mono">ROUTING</span>
+            </div>
+            <p class="stack-item-desc">Declarative client-side routing engine with protected auth guards.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Framer Motion &amp; GSAP</span>
+              <span class="stack-item-tag mono">ANIMATIONS</span>
+            </div>
+            <p class="stack-item-desc">60fps hardware-accelerated transitions, gestures &amp; canvas particles.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Tailwind &amp; Glassmorphic CSS</span>
+              <span class="stack-item-tag mono">STYLING</span>
+            </div>
+            <p class="stack-item-desc">Custom design tokens, variables, and GPU-accelerated backdrop filters.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Tesseract.js</span>
+              <span class="stack-item-tag mono">CLIENT OCR</span>
+            </div>
+            <p class="stack-item-desc">Client-side optical character recognition for payment verification.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">pdfmake &amp; qrcode</span>
+              <span class="stack-item-tag mono">DOCUMENTS</span>
+            </div>
+            <p class="stack-item-desc">Dynamic client-side PDF export generation &amp; dynamic UPI QR codes.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Axios</span>
+              <span class="stack-item-tag mono">API CLIENT</span>
+            </div>
+            <p class="stack-item-desc">Robust promise-based HTTP client for secure backend communication.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Backend -->
+      <div class="stack-pane" id="tab-backend">
+        <div class="stack-grid">
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Node.js (v18+)</span>
+              <span class="stack-item-tag mono">RUNTIME</span>
+            </div>
+            <p class="stack-item-desc">High-performance, event-driven asynchronous JavaScript server runtime.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Express.js v4</span>
+              <span class="stack-item-tag mono">API FRAMEWORK</span>
+            </div>
+            <p class="stack-item-desc">RESTful endpoint architecture, middleware pipelines &amp; MVC structure.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Socket.IO (v4.x)</span>
+              <span class="stack-item-tag mono">WEBSOCKETS</span>
+            </div>
+            <p class="stack-item-desc">Sub-200ms ultra-low latency bidding engine with auto-reconnection.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Room Isolation</span>
+              <span class="stack-item-tag mono">MULTI-TENANT</span>
+            </div>
+            <p class="stack-item-desc">Channel segregation for isolated tournament auction rooms and bidders.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 3: Database & Cloud -->
+      <div class="stack-pane" id="tab-database">
+        <div class="stack-grid">
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">MongoDB</span>
+              <span class="stack-item-tag mono">PRIMARY DATABASE</span>
+            </div>
+            <p class="stack-item-desc">High-throughput NoSQL document store for dynamic auction records &amp; users.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Mongoose v7</span>
+              <span class="stack-item-tag mono">ODM &amp; SCHEMA</span>
+            </div>
+            <p class="stack-item-desc">Strict schema validation, optimized indexing, and transactional integrity.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Cloudinary CDN</span>
+              <span class="stack-item-tag mono">MEDIA STORAGE</span>
+            </div>
+            <p class="stack-item-desc">Automated cloud asset delivery &amp; transformations for player avatars.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Vercel Cloud</span>
+              <span class="stack-item-tag mono">GLOBAL DEPLOYMENT</span>
+            </div>
+            <p class="stack-item-desc">Serverless edge infrastructure with automated CI/CD branch deployments.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 4: Security & Payments -->
+      <div class="stack-pane" id="tab-security">
+        <div class="stack-grid">
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">JWT &amp; Bcrypt</span>
+              <span class="stack-item-tag mono">AUTH &amp; HASHING</span>
+            </div>
+            <p class="stack-item-desc">Stateless cryptographic tokens and salted password hashing pipelines.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Helmet &amp; Rate Limiting</span>
+              <span class="stack-item-tag mono">DEFENSE</span>
+            </div>
+            <p class="stack-item-desc">Strict HTTP security headers, XSS sanitization &amp; DDoS rate limiting.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Razorpay SDK</span>
+              <span class="stack-item-tag mono">PAYMENT GATEWAY</span>
+            </div>
+            <p class="stack-item-desc">Automated tournament tier billing, subscriptions, and webhook processing.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Direct UPI &amp; Dynamic QR</span>
+              <span class="stack-item-tag mono">INSTANT PAYMENTS</span>
+            </div>
+            <p class="stack-item-desc">Direct bank-to-bank UPI flow with automatic OCR slip verification.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Nodemailer &amp; Resend</span>
+              <span class="stack-item-tag mono">TRANSACTIONAL EMAIL</span>
+            </div>
+            <p class="stack-item-desc">Fast automated OTP authentication, verification codes, and invoices.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 5: Tooling & QA -->
+      <div class="stack-pane" id="tab-tooling">
+        <div class="stack-grid">
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Jest</span>
+              <span class="stack-item-tag mono">UNIT TESTING</span>
+            </div>
+            <p class="stack-item-desc">Automated test suites for bidding rules, purse math &amp; business logic.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">ESLint 9 &amp; Prettier</span>
+              <span class="stack-item-tag mono">CODE QUALITY</span>
+            </div>
+            <p class="stack-item-desc">Strict syntax auditing, static code analysis &amp; deterministic formatting.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Git &amp; GitHub Actions</span>
+              <span class="stack-item-tag mono">CI/CD PIPELINE</span>
+            </div>
+            <p class="stack-item-desc">Atomic commit workflow, PR review cycles &amp; automated build validation.</p>
+          </div>
+          <div class="stack-item">
+            <div class="stack-item-head">
+              <span class="stack-item-name">Dotenv</span>
+              <span class="stack-item-tag mono">CONFIG SECURITY</span>
+            </div>
+            <p class="stack-item-desc">Strict environment isolation for API credentials, secrets &amp; tokens.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -515,6 +855,17 @@
   // expandable payload cards
   document.querySelectorAll('.service-head').forEach(btn=>{
     btn.addEventListener('click', ()=>{ btn.closest('.service').classList.toggle('open'); });
+  });
+
+  // tech stack tabs switcher
+  document.querySelectorAll('.stack-tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.stack-tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.stack-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      const target = document.getElementById(btn.getAttribute('data-tab'));
+      if(target) target.classList.add('active');
+    });
   });
 </script>
 
