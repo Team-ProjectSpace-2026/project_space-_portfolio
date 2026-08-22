@@ -1,0 +1,439 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Space — Web development &amp; SaaS builds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#131A2B;
+    --night-line:#2B3550;
+    --paper:#F1EDE2;
+    --ink:#1B2338;
+    --steel:#7C8AA0;
+    --signal:#E8823C;
+    --signal-tint:#F7DEC6;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--night);color:#F1EDE2;font-family:'Inter',sans-serif;line-height:1.6;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+  .display{font-family:'Space Grotesk',sans-serif;}
+  .wrap{max-width:920px;margin:0 auto;padding:0 28px;}
+
+  /* whole-page space background */
+  .space-bg{position:fixed;inset:0;z-index:-2;pointer-events:none;
+    background:
+      radial-gradient(ellipse 700px 460px at 12% 6%, rgba(232,130,60,0.13), transparent 55%),
+      radial-gradient(ellipse 640px 520px at 90% 30%, rgba(124,138,160,0.14), transparent 55%),
+      radial-gradient(ellipse 620px 480px at 20% 82%, rgba(124,138,160,0.10), transparent 55%),
+      radial-gradient(ellipse 560px 440px at 85% 92%, rgba(232,130,60,0.10), transparent 55%),
+      radial-gradient(rgba(241,237,226,0.05) 1px, transparent 1px);
+    background-size:auto, auto, auto, auto, 26px 26px;
+  }
+  .starfield{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;}
+  .star{position:absolute;border-radius:50%;background:#F1EDE2;animation:twinkle 4s ease-in-out infinite;}
+  @keyframes twinkle{0%,100%{opacity:0.15;}50%{opacity:0.9;}}
+  .orbit{position:absolute;border:1px solid rgba(241,237,226,0.12);border-radius:50%;pointer-events:none;z-index:-1;}
+  .orbit::after{content:"";position:absolute;width:5px;height:5px;background:var(--signal);border-radius:50%;top:-2.5px;left:50%;margin-left:-2.5px;box-shadow:0 0 6px 1px rgba(232,130,60,0.6);}
+  .orbit-a{width:340px;height:340px;top:60px;right:-60px;animation:spin 40s linear infinite;}
+  .orbit-b{width:180px;height:180px;top:640px;left:6%;animation:spin 26s linear infinite reverse;}
+  .orbit-c{width:260px;height:260px;top:1500px;right:10%;animation:spin 34s linear infinite;}
+  @keyframes spin{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+  @media (prefers-reduced-motion: reduce){
+    .star{animation:none;opacity:0.5;}
+    .orbit{animation:none;}
+    .astronaut{animation:none !important;}
+  }
+
+  .comet{position:fixed;z-index:-1;width:140px;height:2px;pointer-events:none;
+    background:linear-gradient(to left, #F1EDE2, rgba(241,237,226,0));
+    border-radius:2px;opacity:0;
+    animation:comet-fly 2.2s linear forwards;
+  }
+  @keyframes comet-fly{
+    0%{opacity:0;transform:translate(0,0) rotate(-32deg);}
+    8%{opacity:1;}
+    80%{opacity:0.9;}
+    100%{opacity:0;transform:translate(-620px,400px) rotate(-32deg);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .comet{display:none;}
+  }
+
+  /* mission clock */
+  #clock{
+    position:fixed;bottom:16px;right:18px;z-index:50;
+    font-size:11px;letter-spacing:0.5px;color:var(--steel);
+    background:rgba(19,26,43,0.85);border:1px solid var(--night-line);
+    padding:6px 11px;pointer-events:none;line-height:1.5;text-align:right;
+  }
+  #clock .t{color:var(--signal);font-weight:500;}
+
+  header{
+    position:sticky;top:0;z-index:10;background:rgba(19,26,43,0.92);
+    backdrop-filter:blur(4px);border-bottom:1px solid var(--night-line);
+  }
+  header .wrap{display:flex;justify-content:space-between;align-items:center;padding:18px 28px;}
+  .wordmark{color:#F1EDE2;font-weight:600;font-size:16px;letter-spacing:0.5px;}
+  .wordmark span{color:var(--signal);}
+  nav a{color:var(--steel);text-decoration:none;font-size:12px;letter-spacing:1px;margin-left:22px;text-transform:uppercase;}
+  nav a:hover{color:#F1EDE2;}
+
+  /* HERO */
+  .hero{padding:70px 0 84px;position:relative;}
+  .hero .wrap{position:relative;z-index:2;}
+  .hero-grid{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start;}
+  .eyebrow{font-size:12px;letter-spacing:2px;color:var(--signal);text-transform:uppercase;margin-bottom:14px;display:block;}
+  h1{font-weight:700;font-size:40px;line-height:1.2;letter-spacing:-0.3px;max-width:520px;}
+  .hero p.lede{color:var(--steel);font-size:16px;max-width:440px;margin-top:16px;}
+  .btn-row{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:13px;letter-spacing:0.5px;padding:11px 20px;text-decoration:none;border:1.5px solid var(--signal);color:var(--signal);transition:background .12s, color .12s, transform .12s;}
+  .btn-primary{background:var(--signal);color:var(--night);}
+  .btn-primary:hover{background:#F1EDE2;border-color:#F1EDE2;}
+  .btn:active{transform:scale(0.94);}
+  .btn-ghost:hover{background:var(--signal);color:var(--night);}
+
+  .spec-card{border:1px solid var(--night-line);padding:20px;font-size:13px;background:rgba(255,255,255,0.03);}
+  .spec-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed var(--night-line);}
+  .spec-row:last-child{border-bottom:none;}
+  .spec-key{color:var(--steel);letter-spacing:0.5px;}
+  .spec-val{font-weight:500;color:#F1EDE2;}
+  .status-tag{display:inline-block;background:var(--signal);color:var(--night);padding:2px 8px;font-size:12px;}
+
+  /* CONTENT sections — sit directly on the space background */
+  section.paper{padding:76px 0;border-bottom:1px solid var(--night-line);}
+  section.paper:last-of-type{border-bottom:none;}
+  .eyebrow-dark{font-size:12px;letter-spacing:2px;color:var(--signal);text-transform:uppercase;margin-bottom:14px;display:block;}
+  h2{font-size:28px;font-weight:600;letter-spacing:-0.2px;margin-bottom:8px;font-family:'Space Grotesk',sans-serif;}
+  .section-sub{color:var(--steel);max-width:460px;margin-bottom:8px;}
+
+  /* signal trace draw-in */
+  .trace{width:100%;height:20px;margin-bottom:36px;}
+  .trace path{
+    fill:none;stroke:var(--signal);stroke-width:1.5;
+    stroke-dasharray:1400;stroke-dashoffset:1400;
+    transition:stroke-dashoffset 1.3s ease;
+  }
+  .drawn .trace path{stroke-dashoffset:0;}
+
+  .service{border-top:1px solid var(--night-line);}
+  .service:last-child{border-bottom:none;}
+  .service-head{
+    display:grid;grid-template-columns:70px 1fr 24px;gap:20px;align-items:start;
+    padding:28px 0;cursor:pointer;background:none;border:none;width:100%;text-align:left;font:inherit;color:inherit;
+  }
+  .service-num-wrap{position:relative;width:34px;height:34px;}
+  .service-num-wrap svg{position:absolute;top:0;left:0;}
+  .service-num-wrap svg circle{fill:none;stroke:var(--signal);stroke-width:1.5;stroke-dasharray:100;stroke-dashoffset:100;transition:stroke-dashoffset 0.8s ease;}
+  .drawn .service-num-wrap svg circle{stroke-dashoffset:0;}
+  .service-num{position:absolute;top:0;left:0;width:34px;height:34px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--signal);}
+  .service h3{font-size:19px;font-weight:600;margin-bottom:8px;font-family:'Space Grotesk',sans-serif;}
+  .service p.desc{color:var(--steel);max-width:520px;font-size:15px;}
+  .toggle-ind{font-size:14px;color:var(--signal);padding-top:2px;transition:transform .2s ease;}
+  .service.open .toggle-ind{transform:rotate(45deg);}
+  .tags{margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;}
+  .tag{font-size:11px;letter-spacing:0.5px;border:1px solid var(--night-line);padding:4px 9px;color:var(--steel);}
+
+  .service-detail{max-height:0;overflow:hidden;transition:max-height .35s ease, padding .35s ease;padding-left:90px;}
+  .service.open .service-detail{max-height:160px;padding-bottom:26px;}
+  .service-detail p{color:var(--steel);font-size:14px;max-width:480px;border-left:1px dashed var(--night-line);padding-left:16px;}
+  .service-detail .detail-label{color:var(--signal);font-size:11px;letter-spacing:1px;margin-bottom:6px;display:block;}
+
+  .about-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:start;}
+  .about-grid p{color:var(--steel);font-size:15px;max-width:440px;}
+  .about-grid p + p{margin-top:14px;}
+
+  .contact-box{padding:44px;border:1px solid var(--night-line);text-align:left;background:rgba(255,255,255,0.03);}
+  .contact-box h2{margin-bottom:10px;}
+  .contact-box p{color:var(--steel);max-width:420px;margin-bottom:26px;}
+
+  footer{padding:30px 0 46px;border-top:1px solid var(--night-line);color:var(--steel);}
+  footer .wrap{display:flex;justify-content:space-between;align-items:center;font-size:12px;flex-wrap:wrap;gap:10px;}
+
+  /* crew grid */
+  .crew-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px 32px;margin-top:44px;}
+  .crew-card{display:flex;flex-direction:column;align-items:center;text-align:center;}
+  .astronaut{width:180px;height:220px;margin-bottom:16px;overflow:hidden;border-radius:16px;background:#D8C4EB;}
+  .astronaut img{width:100%;height:100%;object-fit:contain;}
+  .crew-card:nth-child(1) .astronaut{animation:float 3.2s ease-in-out infinite;}
+  .crew-card:nth-child(2) .astronaut{animation:float 3.6s ease-in-out 0.4s infinite;}
+  .crew-card:nth-child(3) .astronaut{animation:float 3.0s ease-in-out 0.8s infinite;}
+  .crew-card:nth-child(4) .astronaut{animation:float 3.4s ease-in-out 1.2s infinite;}
+  .crew-card:nth-child(5) .astronaut{animation:float 3.1s ease-in-out 0.6s infinite;}
+  .crew-card:nth-child(6) .astronaut{animation:float 3.5s ease-in-out 1.0s infinite;}
+  @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+  .crew-name{font-family:'Space Grotesk',sans-serif;font-size:16px;font-weight:600;color:#F1EDE2;margin-bottom:4px;}
+  .crew-role{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:1px;color:var(--signal);text-transform:uppercase;}
+
+  @media (max-width:720px){
+    h1{font-size:30px;}
+    .hero-grid{grid-template-columns:1fr;}
+    .about-grid{grid-template-columns:1fr;}
+    nav a{margin-left:14px;font-size:11px;}
+    .contact-box{padding:28px;}
+    .service-detail{padding-left:0;}
+    .crew-grid{grid-template-columns:repeat(2,1fr);gap:28px 20px;}
+  }
+  @media (max-width:480px){
+    .crew-grid{grid-template-columns:1fr;gap:24px;}
+  }
+</style>
+
+<svg style="position:absolute;width:0;height:0" aria-hidden="true">
+  <defs>
+    <filter id="remove-bg" color-interpolation-filters="sRGB" x="-5%" y="-5%" width="110%" height="110%">
+      <feFlood flood-color="#D8C4EB" result="flood"/>
+      <feComposite in="SourceGraphic" in2="flood" operator="arithmetic"
+        k1="0" k2="1" k3="-1" k4="0" result="above"/>
+      <feComposite in="flood" in2="SourceGraphic" operator="arithmetic"
+        k1="0" k2="1" k3="-1" k4="0" result="below"/>
+      <feBlend in="above" in2="below" mode="lighten" result="absdiff"/>
+      <feColorMatrix in="absdiff" type="luminanceToAlpha" result="alphaMatte"/>
+      <feComponentTransfer in="alphaMatte" result="boosted">
+        <feFuncA type="linear" slope="3" intercept="-0.4"/>
+      </feComponentTransfer>
+      <feComposite in="SourceGraphic" in2="boosted" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+</head>
+<body>
+
+<div class="space-bg"></div>
+<div class="starfield" id="starfield"></div>
+<div class="orbit orbit-a"></div>
+<div class="orbit orbit-b"></div>
+<div class="orbit orbit-c"></div>
+
+<div id="clock" class="mono">MISSION CLOCK<br><span class="t">T+00:00</span> · ALT 000km</div>
+
+<header>
+  <div class="wrap">
+    <div class="wordmark display"><span>PROJECT</span> SPACE</div>
+    <nav class="mono">
+      <a href="#services">Payload</a>
+      <a href="#about">Crew</a>
+      <a href="#contact">Launch</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow mono">Mission briefing</span>
+        <h1 class="display">Web development &amp; SaaS builds, run like a launch.</h1>
+        <p class="lede">Project Space is a six-person crew based in Mangaluru, building web presence and software for small businesses that need to move fast.</p>
+        <div class="btn-row">
+          <a href="#contact" class="btn btn-primary">[ Initiate launch ]</a>
+          <a href="#services" class="btn btn-ghost">[ View payload ]</a>
+        </div>
+      </div>
+      <div class="spec-card mono">
+        <div class="spec-row"><span class="spec-key">MISSION</span><span class="spec-val">PROJECT SPACE</span></div>
+        <div class="spec-row"><span class="spec-key">CREW</span><span class="spec-val">06</span></div>
+        <div class="spec-row"><span class="spec-key">LAUNCH SITE</span><span class="spec-val">MANGALURU, IN</span></div>
+        <div class="spec-row"><span class="spec-key">STATUS</span><span class="status-tag">GO</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="services" class="paper reveal-draw">
+  <div class="wrap">
+    <span class="eyebrow-dark mono">What we carry</span>
+    <h2 class="display">Payload</h2>
+    <p class="section-sub">Two things, done properly — a site people can find and trust, or a product they can actually use.</p>
+    <svg class="trace" viewBox="0 0 900 20" preserveAspectRatio="none"><path d="M0,10 L200,10 L230,2 L260,18 L290,10 L900,10"/></svg>
+
+    <div class="service">
+      <button class="service-head" data-target="s1">
+        <div class="service-num-wrap">
+          <svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="15.5"/></svg>
+          <div class="service-num mono">01</div>
+        </div>
+        <div>
+          <h3>Web development</h3>
+          <p class="desc">Business websites, landing pages and product sites built to load fast and read clean on any device. Delivered as maintainable code, not a locked-in template.</p>
+          <div class="tags mono">
+            <span class="tag">RESPONSIVE</span>
+            <span class="tag">SEO-READY</span>
+            <span class="tag">FAST LOAD</span>
+          </div>
+        </div>
+        <div class="toggle-ind mono">+</div>
+      </button>
+      <div class="service-detail" id="s1">
+        <span class="detail-label mono">SEQUENCE</span>
+        <p>Scope call, wireframe, build, one round of revisions — usually delivered in 1–2 weeks depending on scope.</p>
+      </div>
+    </div>
+
+    <div class="service">
+      <button class="service-head" data-target="s2">
+        <div class="service-num-wrap">
+          <svg viewBox="0 0 34 34"><circle cx="17" cy="17" r="15.5"/></svg>
+          <div class="service-num mono">02</div>
+        </div>
+        <div>
+          <h3>SaaS product builds</h3>
+          <p class="desc">Full-stack products and internal tools, from first prototype to a version you can hand to real users — dashboards, auth, databases, the parts that make an idea usable.</p>
+          <div class="tags mono">
+            <span class="tag">FULL-STACK</span>
+            <span class="tag">DASHBOARDS</span>
+            <span class="tag">MVP-READY</span>
+          </div>
+        </div>
+        <div class="toggle-ind mono">+</div>
+      </button>
+      <div class="service-detail" id="s2">
+        <span class="detail-label mono">SEQUENCE</span>
+        <p>Requirements, architecture, build in phases, handoff with docs. Timeline scales with features — an MVP usually ships in 3–6 weeks.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="about" class="paper reveal-draw">
+  <div class="wrap">
+    <span class="eyebrow-dark mono">Flight crew</span>
+    <h2 class="display">A small crew, built for speed.</h2>
+    <svg class="trace" viewBox="0 0 900 20" preserveAspectRatio="none"><path d="M0,10 L200,10 L230,2 L260,18 L290,10 L900,10"/></svg>
+    <div class="about-grid">
+      <div>
+        <p>We're a six-person crew based in Mangaluru, working with small businesses and founders who need a site or a product built right the first time.</p>
+        <p>No bloated process, no big-agency overhead — just a team that ships.</p>
+      </div>
+      <div class="spec-card mono">
+        <div class="spec-row"><span class="spec-key">CREW SIZE</span><span class="spec-val">06</span></div>
+        <div class="spec-row"><span class="spec-key">BASED IN</span><span class="spec-val">MANGALURU, KA</span></div>
+        <div class="spec-row"><span class="spec-key">WORKS WITH</span><span class="spec-val">SMB, FOUNDERS</span></div>
+        <div class="spec-row"><span class="spec-key">DELIVERY</span><span class="spec-val">DIRECT</span></div>
+      </div>
+    </div>
+
+    <div class="crew-grid">
+      <div class="crew-card">
+        <div class="astronaut"><img src="images/arjun.png" alt="Arjun"/></div>
+        <div class="crew-name">Arjun</div>
+        <div class="crew-role">Mission Lead</div>
+      </div>
+      <div class="crew-card">
+        <div class="astronaut"><img src="images/priya.png" alt="Priya"/></div>
+        <div class="crew-name">Priya</div>
+        <div class="crew-role">Code Pilot</div>
+      </div>
+      <div class="crew-card">
+        <div class="astronaut"><img src="images/rahul.png" alt="Rahul"/></div>
+        <div class="crew-name">Rahul</div>
+        <div class="crew-role">Systems Engineer</div>
+      </div>
+      <div class="crew-card">
+        <div class="astronaut"><img src="images/ananya.png" alt="Ananya"/></div>
+        <div class="crew-name">Ananya</div>
+        <div class="crew-role">Payload Specialist</div>
+      </div>
+      <div class="crew-card">
+        <div class="astronaut"><img src="images/rohan.png" alt="Rohan"/></div>
+        <div class="crew-name">Rohan</div>
+        <div class="crew-role">Orbit Designer</div>
+      </div>
+      <div class="crew-card">
+        <div class="astronaut"><img src="images/dev.png" alt="Dev"/></div>
+        <div class="crew-name">Dev</div>
+        <div class="crew-role">Launch Coordinator</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="contact" class="paper">
+  <div class="wrap">
+    <div class="contact-box">
+      <span class="eyebrow-dark mono">Launch</span>
+      <h2 class="display">Tell us what you're building.</h2>
+      <p>Send a line about the project and we'll get back within a day or two.</p>
+      <a href="mailto:hello@projectspace.studio" class="btn btn-primary">[ Initiate launch ]</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap mono">
+    <span>© 2026 PROJECT SPACE</span>
+    <span>WEB DEVELOPMENT &amp; SAAS BUILDS — MANGALURU</span>
+  </div>
+</footer>
+
+<script>
+  // scatter stars across the whole page (fixed field, twinkles as you scroll)
+  const field = document.getElementById('starfield');
+  const starCount = 140;
+  for(let i=0;i<starCount;i++){
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = Math.random() < 0.85 ? (Math.random()*1.5+1) : (Math.random()*2+2.5);
+    s.style.width = size+'px';
+    s.style.height = size+'px';
+    s.style.top = (Math.random()*100)+'%';
+    s.style.left = (Math.random()*100)+'%';
+    s.style.animationDelay = (Math.random()*4)+'s';
+    s.style.animationDuration = (3+Math.random()*3)+'s';
+    field.appendChild(s);
+  }
+
+  // shooting stars — spawn occasionally, drift across, then remove
+  function spawnComet(){
+    const c = document.createElement('div');
+    c.className = 'comet';
+    c.style.top = (Math.random()*50)+'%';
+    c.style.left = (55+Math.random()*40)+'%';
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(), 2300);
+  }
+  function scheduleComet(){
+    const delay = 4000 + Math.random()*6000;
+    setTimeout(()=>{ spawnComet(); scheduleComet(); }, delay);
+  }
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduceMotion){ scheduleComet(); }
+
+  // mission clock — ticks with scroll position
+  const clockT = document.querySelector('#clock .t');
+  const clockAlt = document.querySelector('#clock');
+  function updateClock(){
+    const scrolled = window.scrollY;
+    const max = document.body.scrollHeight - window.innerHeight;
+    const pct = max > 0 ? scrolled / max : 0;
+    const totalSec = Math.floor(pct * 240);
+    const mm = String(Math.floor(totalSec/60)).padStart(2,'0');
+    const ss = String(totalSec%60).padStart(2,'0');
+    const alt = Math.floor(pct * 408);
+    clockT.textContent = `T+${mm}:${ss}`;
+    clockAlt.innerHTML = `MISSION CLOCK<br><span class="t">T+${mm}:${ss}</span> · ALT ${String(alt).padStart(3,'0')}km`;
+  }
+  document.addEventListener('scroll', updateClock, {passive:true});
+  updateClock();
+
+  // signal trace + service number draw-in on scroll
+  const drawTargets = document.querySelectorAll('.reveal-draw');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('drawn'); io.unobserve(e.target); } });
+  }, {threshold:0.2});
+  drawTargets.forEach(el=>io.observe(el));
+
+  // expandable payload cards
+  document.querySelectorAll('.service-head').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ btn.closest('.service').classList.toggle('open'); });
+  });
+</script>
+
+</body>
+</html>
