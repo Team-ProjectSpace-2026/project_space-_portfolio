@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://project-space-portfolio-dun.vercel.app/sitemap.xml
